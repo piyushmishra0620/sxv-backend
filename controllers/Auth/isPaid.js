@@ -3,9 +3,10 @@ module.exports = async (req, res, next) => {
   User.findById(req.user.userId).then(async (user) => {
 
     try {
-      if (user.paymentStatus === true) {
+      if (user.paymentStatus === true || user.isVssutian === true) {
         next();
       } else {
+        console.log("not paid");
         res.json({
           message: "Oops! seems like you are not yet verified, check your email we sent you while registration to complete verification!",
           success: false,
