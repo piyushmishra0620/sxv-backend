@@ -6,7 +6,7 @@ const cors = require("cors");
 // const userRouter = require('./routes/userRoute')
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://www.festvssut.in', '*', 'https://www.festvssut.fun', 'https://dev.festvssut.in', 'https://fest-admin-panel.vercel.app/']
+  origin: ['http://localhost:3000', 'https://www.festvssut.in', '*', 'https://www.festvssut.fun', 'https://dev.festvssut.in', 'https://fest-admin-panel.vercel.app','https://sxv-frontend-jade.vercel.app']
 }));
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
