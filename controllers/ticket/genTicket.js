@@ -56,7 +56,7 @@ const genTicket = (req, res, next) => {
                                               width: 100%;
                                               height: 100%;">
               
-                      <img src="https://drive.google.com/thumbnail?sz=w2000&id=14g06_H6yJsmkUOaVL_AvdIpo4GvtXGfC" alt="Logo" style="width: 500px;
+                      <img src="https://res.cloudinary.com/dlm8mel1x/image/upload/v1739813189/sxv/hfm2yuqb9ojsjajsc6r2.png" alt="Logo" style="width: 500px;
                                                       height: 250px;">
               
                       <div style="background:  #099396;height: 250px;min-width:250px;justify-content: center;">
@@ -107,7 +107,7 @@ const genTicket = (req, res, next) => {
                                               width: 100%;
                                               height: 100%;">
               
-                      <img src="https://drive.google.com/thumbnail?sz=w2000&id=1lCz_sLj8U2r2mamtFMrMrmjulvX8-4Zy" alt="Logo" style="width: 500px;
+                      <img src="https://res.cloudinary.com/dlm8mel1x/image/upload/v1739813189/sxv/hfm2yuqb9ojsjajsc6r2.png" alt="Logo" style="width: 500px;
                                                       height: 250px;">
               
                       <div style="background:  #D15F5F;height: 250px;min-width:250px;justify-content: center;">
@@ -159,7 +159,7 @@ const genTicket = (req, res, next) => {
                                               width: 100%;
                                               height: 100%;">
               
-                      <img src="https://drive.google.com/thumbnail?sz=w2000&id=1_Q4MVu2dyHGfSVohrkMp5DglKa4P2gWh" alt="Logo" style="width: 500px;
+                      <img src="https://res.cloudinary.com/dlm8mel1x/image/upload/v1739813189/sxv/hfm2yuqb9ojsjajsc6r2.png" alt="Logo" style="width: 500px;
                                                       height: 250px;">
               
                       <div style="background:  #9B2227;height: 250px;min-width:250px;justify-content: center;">

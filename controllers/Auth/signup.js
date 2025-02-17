@@ -4655,7 +4655,7 @@ const signUp = async (req, res, next) => {
                   html: `<html lang="en">
     <head></head>
     <body style="font-family: 'Courier New', Courier, monospace; text-align: center">
-    <img src="https://drive.google.com/thumbnail?sz=w1000&id=1fF1bNQykjxloIukAnPlaU4th7lJhgqbW" alt="College Fest Logo" style="width: 150px; height: 100px; object-fit: contain" />
+    <img src="https://res.cloudinary.com/dlm8mel1x/image/upload/v1739813189/sxv/hfm2yuqb9ojsjajsc6r2.png" alt="College Fest Logo" style="width: 150px; height: 100px; object-fit: contain" />
     <h4 style="color: #ce0f5b">Dear ${user.username},</h4>
     <p style="color: #000">
       I hope this email finds you well. On behalf of the organizing committee of Veer Surendra Sai University of Technology (VSSUT), I am delighted to extend to you a special invitation to our annual Techno-Cultural Fest, "Samavesh and Vassaunt 2024."
