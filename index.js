@@ -47,12 +47,22 @@ app.use("/api/password", passwordRoutes)
 //   });
 
 
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => console.log(err));
+// mongoose
+//   .connect(process.env.MONGODB_URI)
+//   .then(() => {
+//     console.log("Connected to MongoDB");
+//   })
+//   .catch((err) => console.log(err));
+
+//just for checking
+if (process.env.MONGODB_URI) {
+  mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.log(err));
+} else {
+  console.warn("⚠️ MongoDB not connected (review mode)");
+}
 
 module.exports = app;
 app.listen(process.env.PORT || 8000, () => {

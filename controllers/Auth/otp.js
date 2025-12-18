@@ -1,23 +1,29 @@
 const nodemailer = require("nodemailer");
+const OTP = require("../../models/otp.models"); 
 
-const sendOTPVerification = async (req, res, next) => {
+const sendOTPVerification = async (req, res) => {
+  try {
+    const { email } = req.body;
 
-  const email = await req.body.email
-  // console.log(req.body.email, email)
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false
+    if (!email) {
+      return res.json({ success: false, message: "Email is required" });
     }
-  });
 
-  if (email.length > 0) {
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
-    const date = new Date()
+
+    await OTP.findOneAndUpdate(
+      { email }, 
+      { otp, createdAt: Date.now() }, 
+      { upsert: true, new: true }
+    );
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
 
     const mailOption = {
       from: process.env.EMAIL,
@@ -70,28 +76,19 @@ const sendOTPVerification = async (req, res, next) => {
       `,
     };
 
-    await transporter
-      .sendMail(mailOption)
-      .then(() => {
-        res.json({
-          otp: otp,
-          message: `Verification OTP sent to ${email}`,
-          success: true,
-        })
-      })
-      .catch((error) => {
-        res.json({
-          err: error.message,
-          message: "Error occured internally",
-          success: false,
-        });
+    await transporter.sendMail(mailOption);
 
-      });
-  } else {
-    res.json({
-      status: "failed",
-      message: "Verification OTP is not sent!",
+    return res.json({
+      success: true,
+      message: `Verification OTP sent to ${email}`,
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
       success: false,
+      message: "Internal server error",
+      err: error.message
     });
   }
 };

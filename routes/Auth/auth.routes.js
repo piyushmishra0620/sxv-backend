@@ -2,6 +2,8 @@ const router = require("express").Router();
 const login = require("../../controllers/Auth/login");
 const sendOTP = require("../../controllers/Auth/otp");
 const signup = require('../../controllers/Auth/signup');
+const verifyOTP = require("../../controllers/Auth/verifyOTP");
+router.post("/verifyOTP", verifyOTP);
 router.post("/sendOTP", sendOTP);
 router.post("/signup", signup);
 router.post("/login", login);
