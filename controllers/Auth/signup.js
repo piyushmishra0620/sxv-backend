@@ -1,6 +1,6 @@
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const signUp = async (req, res, next) => {
   const {
@@ -4589,7 +4589,7 @@ const signUp = async (req, res, next) => {
             message: "Email or registration number already in use",
           });
         } else {
-          const salt = await bcrypt.genSalt(12);
+          const salt = await bcrypt.genSalt(10);
           const hash = await bcrypt.hash(password, salt);
 
           const user = new User({

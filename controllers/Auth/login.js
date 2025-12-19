@@ -1,12 +1,12 @@
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1️⃣ Validate input
+    
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -14,7 +14,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 2️⃣ Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({
@@ -23,7 +22,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 3️⃣ SAFETY CHECK (THIS PREVENTS 504)
     if (!user.password) {
       return res.status(500).json({
         success: false,
@@ -31,7 +29,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 4️⃣ Compare password
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(401).json({
@@ -40,7 +37,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 5️⃣ Generate token
     const token = jwt.sign(
       {
         userId: user._id,
@@ -59,7 +55,6 @@ const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    // 6️⃣ SUCCESS RESPONSE
     return res.json({
       success: true,
       token,
