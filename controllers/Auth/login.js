@@ -1,65 +1,78 @@
-const User = require('../../models/user')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
+const User = require('../../models/user');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-    try {
-        const { email, password } = req.body
-
-        if (!email || !password) {
-            res.json({
-                success: false,
-                message: "All fields must be filled"
-            })
-        } else {
-            const user = await User.findOne({ email })
-
-            if (!user) {
-                res.json({
-                    success: false,
-                    message: 'Email not registered'
-                })
-            } else {
-
-                const match = await bcrypt.compare(password, user.password)
-
-                if (!match) {
-                    res.json({
-                        success: false,
-                        message: "Incorrect Password"
-                    })
-                } else {
-                    const userId = user._id;
-                    const email = user.email;
-                    const isVssutian = user.isVssutian;
-                    const regdNo = user.regdNo;
-                    const events = user.events;
-                    const college = user.college;
-                    const graduationYear = user.graduationYear;
-                    const branch = user.branch;
-                    const paymentStatus = user.paymentStatus;
-                    const phone = user.phone;
-                    const username = user.username
-
-
-                    const token = jwt.sign({ username, userId, email, isVssutian, regdNo, events, college, graduationYear, branch, paymentStatus, phone }, process.env.SECRET)
-
-                    res.json({
-                        success: true,
-                        token,
-                        message: "Login successful"
-                    })
-                }
-            }
-        }
-    } catch (error) {
-        res.json({
-            success: false,
-            message: "Problem occured internally"
-        })
+    // 1️⃣ Validate input
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields must be filled",
+      });
     }
 
-}
+    // 2️⃣ Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Email not registered",
+      });
+    }
 
-module.exports = login
+    // 3️⃣ SAFETY CHECK (THIS PREVENTS 504)
+    if (!user.password) {
+      return res.status(500).json({
+        success: false,
+        message: "Password not set for this account",
+      });
+    }
+
+    // 4️⃣ Compare password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
+
+    // 5️⃣ Generate token
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        username: user.username,
+        isVssutian: user.isVssutian,
+        regdNo: user.regdNo,
+        events: user.events,
+        college: user.college,
+        graduationYear: user.graduationYear,
+        branch: user.branch,
+        paymentStatus: user.paymentStatus,
+        phone: user.phone,
+      },
+      process.env.SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // 6️⃣ SUCCESS RESPONSE
+    return res.json({
+      success: true,
+      token,
+      message: "Login successful",
+    });
+
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Problem occurred internally",
+    });
+  }
+};
+
+module.exports = login;
