@@ -30,12 +30,19 @@ const login = async (req, res) => {
     }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({
-        success: false,
-        message: "Incorrect password",
-      });
-    }
+
+if (!match) {
+  return res.status(401).json({
+    success: false,
+    message: "Incorrect password",
+  });
+}
+
+if (bcrypt.getRounds(user.password) > 10) {
+  user.password = await bcrypt.hash(password, 10);
+  await user.save();
+}
+
 
     const token = jwt.sign(
       {
